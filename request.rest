@@ -1,0 +1,16 @@
+GET http://localhost:3000/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsIm5hbWUiOiJkYWRhbmciLCJlbWFpbCI6ImRhZGFuZ0BnbWFpbC5jb20iLCJpYXQiOjE2NjkzNjU1NTIsImV4cCI6MTY2OTM2NTU2N30.50eoHQvZ0eM-OpoaMkBCIWhkzz94VVR56ivjOkVmoE4
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "email" : "dadang@gmail.com",
+    "password" : "1234"
+}
+
+###
+GET http://localhost:3000/token
+
+###
+DELETE http://localhost:3000/logout
