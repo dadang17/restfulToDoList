@@ -6,10 +6,11 @@ const todoRoute = require("./routes/todo.route");
 const authRoute = require("./routes/auth.route");
 const userRoute = require("./routes/user.route");
 
-require("dotenv").config();
+// require("dotenv").config();
 
 const app = express();
-const port = process.env.PORT;
+const PORT = 3000;
+console.log(PORT);
 
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -23,6 +24,6 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.listen(() => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}`);
 });

@@ -1,7 +1,6 @@
 const express = require("express");
 const userController = require("../controller/user.controller");
 const verifyToken = require("../middleware/auth.token");
-const { route } = require("./todo.route");
 const router = express.Router();
 
 router.get("/users", verifyToken.verifyToken, userController.getUsers);
