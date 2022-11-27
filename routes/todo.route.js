@@ -1,19 +1,13 @@
-import express from "express";
-import {
-  getToDobyId,
-  getToDO,
-  createToDO,
-  updateToDo,
-  deleteToDo,
-} from "../controller/todo.controller.js";
-import { verifyToken } from "../middleware/auth.token.js";
-
+const express = require("express");
+const todoController = require("../controller/todo.controller");
+const verifyToken = require("../middleware/auth.token");
 const router = express.Router();
 
-router.get("/todo", verifyToken, getToDO);
-router.get("/todo/:id", verifyToken, getToDobyId);
-router.post("/todo", verifyToken, createToDO);
-router.patch("/todo/:id", verifyToken, updateToDo);
-router.delete("/todo/:id", verifyToken, deleteToDo);
+router.post("/todo", todoController.createToDO);
+router.get("/todo", todoController.getToDO);
+router.get("/todo/:id", todoController.getToDobyId);
+router.patch("/todo/:id", todoController.updateToDo);
+router.delete("/todo/:id", todoController.deleteToDo);
+router.get("/todobyuser", todoController.getToDObyUser);
 
-export default router;
+module.exports = router;

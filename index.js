@@ -1,19 +1,18 @@
-import express from "express";
-import cors from "cors";
-import session from "express-session";
-import dotenv from "dotenv";
-import userRoute from "./routes/user.route.js";
-import db from "./config/database.js";
-import cookieParser from "cookie-parser";
-import todoRoute from "./routes/todo.route.js";
-import authRoute from "./routes/auth.route.js";
+const express = require("express");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const todoRoute = require("./routes/todo.route");
+const authRoute = require("./routes/auth.route");
+const userRoute = require("./routes/user.route");
 
-dotenv.config();
+require("dotenv").config();
 
 const app = express();
 const port = process.env.APP_PORT;
 
 app.use(cookieParser());
+app.use(bodyParser.json());
 
 // app.use(
 //   cors({
@@ -37,14 +36,6 @@ app.use(express.json());
 app.use(userRoute);
 app.use(todoRoute);
 app.use(authRoute);
-
-try {
-  await db.authenticate();
-  console.log("Database Connected");
-  // await todolist.sync();
-} catch (error) {
-  console.error(error);
-}
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

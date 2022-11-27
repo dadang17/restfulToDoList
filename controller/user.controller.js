@@ -1,67 +1,52 @@
-import users from "../models/user.models.js";
-import bcrypt from "bcrypt";
-import Jwt from "jsonwebtoken";
-import cookieParser from "cookie-parser";
+const models = require("../models/index");
 
-// export const register = async (req, res) => {
-//   const { name, email, password, confPassword } = req.body;
-//   if (password !== confPassword)
-//     return res.status(400).json({ message: "Password Tidak cocok" });
+function getUsers(req, res) {
+  models.Users.findAll().then((user) => {
+    if (user === null) {
+      res.status(401).json({
+        message: "Invalid credentials!",
+      });
+    } else {
+      res.status(200).json(user);
+    }
+  });
+}
 
-//   const salt = await bcrypt.genSalt();
-//   const hashPassword = await bcrypt.hash(password, salt);
-//   try {
-//     await users.create({
-//       name: name,
-//       email: email,
-//       password: hashPassword,
-//     });
-//     res.json({ message: "register berhasil" });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+function getUserbyId(req, res) {
+  models.Users.findOne({
+    where: {
+      id: req.params.id,
+    },
+  }).then((user) => {
+    if (user === null) {
+      res.status(401).json({
+        message: "Invalid credentials!",
+      });
+    } else {
+      res.status(200).json(user);
+    }
+  });
+}
 
-export const getUser = async (req, res) => {
+function updateUser(req, res) {
+  models.Users.update(req.body, {
+    where: {
+      id: req.params.id,
+    },
+  }).then((user) => {
+    if (user === null) {
+      res.status(401).json({
+        message: "Invalid credentials!",
+      });
+    } else {
+      res.status(200).json({ message: "User Updated" });
+    }
+  });
+}
+
+function deleteUser(req, res) {
   try {
-    const response = await users.findAll({
-      attributes: ["id", "name", "email"],
-    });
-    res.status(200).json(response);
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-export const getUserbyId = async (req, res) => {
-  try {
-    const response = await users.findOne({
-      where: {
-        id: req.params.id,
-      },
-    });
-    res.status(200).json(response);
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-export const updateUser = async (req, res) => {
-  try {
-    await users.update(req.body, {
-      where: {
-        id: req.params.id,
-      },
-    });
-    res.status(201).json({ message: "User Update" });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-export const deleteUser = async (req, res) => {
-  try {
-    await users.destroy({
+    models.Users.destroy({
       where: {
         id: req.params.id,
       },
@@ -70,4 +55,11 @@ export const deleteUser = async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
+}
+
+module.exports = {
+  getUsers: getUsers,
+  getUserbyId: getUserbyId,
+  updateUser: updateUser,
+  deleteUser: deleteUser,
 };

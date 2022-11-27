@@ -1,17 +1,11 @@
-import express from "express";
-import {
-  getUser,
-  getUserbyId,
-  updateUser,
-  deleteUser,
-} from "../controller/user.controller.js";
-import { verifyToken } from "../middleware/auth.token.js";
-
+const express = require("express");
+const userController = require("../controller/user.controller");
+const verifyToken = require("../middleware/auth.token");
 const router = express.Router();
 
-router.get("/user", verifyToken, getUser);
-router.get("/user/:id", verifyToken, getUserbyId);
-router.patch("/user/:id", verifyToken, updateUser);
-router.delete("/user/:id", verifyToken, deleteUser);
+router.get("/users", verifyToken.verifyToken, userController.getUsers);
+router.get("/users/:id", verifyToken.verifyToken, userController.getUserbyId);
+router.patch("/users/:id", verifyToken.verifyToken, userController.updateUser);
+router.delete("/users/:id", verifyToken.verifyToken, userController.deleteUser);
 
-export default router;
+module.exports = router;

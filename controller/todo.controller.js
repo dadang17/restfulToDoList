@@ -1,66 +1,91 @@
-import todolist from "../models/todo.models.js";
+const models = require("./../models/index");
 
-export const getToDO = async (req, res) => {
-  try {
-    const response = await todolist.findAll();
-    res.status(200).json(response);
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+function getToDO(req, res) {
+  models.Todolists.findAll().then((todolist) => {
+    if (!todolist) {
+      console.log(error.message);
+    } else {
+      res.status(200).json(todolist);
+    }
+  });
+}
 
-export const getToDobyId = async (req, res) => {
-  try {
-    const response = await todolist.findOne({
-      where: {
-        id: req.params.id,
-      },
-    });
-    res.status(200).json(response);
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-export const createToDO = async (req, res) => {
+function getToDobyId(req, res) {
+  models.Todolists.findOne({
+    where: {
+      id: req.params.id,
+    },
+  }).then((todolist) => {
+    if (!todolist) {
+      console.log(error.message);
+    } else {
+      res.status(200).json(todolist);
+    }
+  });
+}
+function createToDO(req, res) {
   const user_id = req.cookies.userID;
   const { title, description } = req.body;
 
-  try {
-    await todolist.create({
-      title: title,
-      description: description,
-      userid: user_id,
-    });
+  models.Todolists.create({
+    title: title,
+    description: description,
+    userid: user_id,
+  }).then((todolist) => {
+    if (!todolist) {
+      console.log(error.message);
+    } else {
+      res.status(201).json({ message: "Todo Created" });
+    }
+  });
+}
+function updateToDo(req, res) {
+  models.Todolists.update(req.body, {
+    where: {
+      id: req.params.id,
+    },
+  }).then((todolist) => {
+    if (!todolist) {
+      console.log(error.message);
+    } else {
+      res.status(201).json({ message: "Todo Update" });
+    }
+  });
+}
+function deleteToDo(req, res) {
+  models.Todolists.destroy({
+    where: {
+      id: req.params.id,
+    },
+  }).then((todolist) => {
+    if (!todolist) {
+      console.log(error.message);
+    } else {
+      res.status(201).json({ message: "Todo Deleted" });
+    }
+  });
+}
 
-    res.status(201).json({ message: "Todo Created" });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+function getToDObyUser(req, res) {
+  // const user_id = req.cookies.userID;
+  models.Todolists.findAll({
+    where: {
+      userid: req.cookies.userID,
+    },
+  }).then((todolist) => {
+    if (!todolist) {
+      console.log(error.message);
+    } else {
+      res.status(200).json(todolist);
+    }
+  });
+}
 
-export const updateToDo = async (req, res) => {
-  try {
-    await todolist.update(req.body, {
-      where: {
-        id: req.params.id,
-      },
-    });
-    res.status(201).json({ message: "Todo Update" });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-export const deleteToDo = async (req, res) => {
-  try {
-    await todolist.destroy({
-      where: {
-        id: req.params.id,
-      },
-    });
-    res.status(201).json({ message: "Todo Deleted" });
-  } catch (error) {
-    console.log(error.message);
-  }
+module.exports = {
+  createToDO: createToDO,
+  getToDO: getToDO,
+  getToDobyId: getToDobyId,
+  updateToDo: updateToDo,
+  deleteToDo: deleteToDo,
+  getToDObyUser: getToDObyUser,
 };
