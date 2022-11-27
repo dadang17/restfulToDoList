@@ -14,24 +14,6 @@ const port = process.env.APP_PORT;
 app.use(cookieParser());
 app.use(bodyParser.json());
 
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: "http://localhost:3000",
-//   })
-// );
-
-// app.use(
-//   session({
-//     secret: process.env.session_secret,
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: {
-//       secure: "auto",
-//     },
-//   })
-// );
-
 app.use(express.json());
 app.use(userRoute);
 app.use(todoRoute);
