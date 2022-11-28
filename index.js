@@ -6,10 +6,10 @@ const todoRoute = require("./routes/todo.route");
 const authRoute = require("./routes/auth.route");
 const userRoute = require("./routes/user.route");
 
-// require("dotenv").config();
+require("dotenv").config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT;
 console.log(PORT);
 
 app.use(cookieParser());
