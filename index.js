@@ -14,7 +14,7 @@ console.log(PORT);
 
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(cors);
+app.use(cors());
 
 app.use(express.json());
 app.use(userRoute);
