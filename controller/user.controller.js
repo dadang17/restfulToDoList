@@ -1,7 +1,9 @@
 const models = require("../models/index");
 
 function getUsers(req, res) {
-  models.Users.findAll().then((user) => {
+  models.Users.findAll({
+    attributes: ["id", "name", "email"],
+  }).then((user) => {
     if (user === null) {
       res.status(401).json({
         message: "Invalid credentials!",
@@ -13,11 +15,16 @@ function getUsers(req, res) {
 }
 
 function getUserbyId(req, res) {
-  models.Users.findOne({
-    where: {
-      id: req.params.id,
+  models.Users.findOne(
+    {
+      attributes: ["id", "name", "email"],
     },
-  }).then((user) => {
+    {
+      where: {
+        id: req.params.id,
+      },
+    }
+  ).then((user) => {
     if (user === null) {
       res.status(401).json({
         message: "Invalid credentials!",
